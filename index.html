@@ -3,9 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello, World!</title>
+    <title>IT Professional Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .software-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .software-row input {
+            flex: 1;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <h1>IT Professional Survey</h1>
+    <form id="surveyForm">
+        <div class="form-section">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-section">
+            <label for="contact">Contact Info:</label>
+            <input type="email" id="contact" name="contact" required>
+        </div>
+        <div class="form-section">
+            <h2>Software Experience</h2>
+            <div id="softwareSection">
+                <div class="software-row">
+                    <input type="text" name="softwareName[]" placeholder="Software Name" required>
+                    <input type="text" name="experienceLevel[]" placeholder="Experience Level" required>
+                </div>
+            </div>
+            <button type="button" id="addRow">+ Add More</button>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const softwareSection = document.getElementById('softwareSection');
+        const addRowButton = document.getElementById('addRow');
+
+        addRowButton.addEventListener('click', () => {
+            const newRow = document.createElement('div');
+            newRow.className = 'software-row';
+            newRow.innerHTML = `
+                <input type="text" name="softwareName[]" placeholder="Software Name" required>
+                <input type="text" name="experienceLevel[]" placeholder="Experience Level" required>
+            `;
+            softwareSection.appendChild(newRow);
+        });
+
+        const surveyForm = document.getElementById('surveyForm');
+        surveyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(surveyForm);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (!data[key]) {
+                    data[key] = [];
+                }
+                data[key].push(value);
+            });
+            console.log('Form Data:', data);
+            alert('Form submitted! Check the console for data.');
+        });
+    </script>
 </body>
 </html>
